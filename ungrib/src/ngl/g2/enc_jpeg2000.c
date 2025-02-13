@@ -88,7 +88,7 @@ int enc_jpeg2000(unsigned char *cin,g2int *pwidth,g2int *pheight,g2int *pnbits,
     jas_image_cmpt_t cmpt,*pcmpt;
 #define MAXOPTSSIZE 1024
     char opts[MAXOPTSSIZE];
-
+    int jpcstream_fmt;
     g2int width,height,nbits;
     width=*pwidth;
     height=*pheight;
@@ -174,13 +174,13 @@ int enc_jpeg2000(unsigned char *cin,g2int *pwidth,g2int *pheight,g2int *pnbits,
  *    code stream.
  */
     jpcstream=jas_stream_memopen(outjpc,(int)(*jpclen));
-
+    jpcstream_fmt=jas_image_getfmt(jpcstream);
 /*
  *     Encode image.
  */
-    ier=jpc_encode(&image,jpcstream,opts);
+    ier=jas_image_encode(&image,jpcstream,jpcstream_fmt,opts);
     if ( ier != 0 ) {
-       printf(" jpc_encode return = %d \n",ier);
+       printf(" jas_image_encode return = %d \n",ier);
        return -3;
     }
 /*

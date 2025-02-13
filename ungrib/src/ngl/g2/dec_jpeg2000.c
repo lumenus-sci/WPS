@@ -68,6 +68,7 @@
     jas_image_cmpt_t cmpt,*pcmpt;
     char *opts=0;
     jas_matrix_t *data;
+    int jpcstream_fmt;
 
 /*    jas_init(); */
 
@@ -76,13 +77,13 @@
  */      
 
     jpcstream=jas_stream_memopen(injpc,*bufsize);
-
+    jpcstream_fmt=jas_image_getfmt(jpcstream);
 /*   
  *     Decode JPEG200 codestream into jas_image_t structure.
  */      
-    image=jpc_decode(jpcstream,opts);
+    image=jas_image_decode(jpcstream,jpcstream_fmt,opts);
     if ( image == 0 ) {
-       printf(" jpc_decode return = %d \n",ier);
+       printf(" jas_image_decode return = %d \n",ier);
        return -3;
     }
     
